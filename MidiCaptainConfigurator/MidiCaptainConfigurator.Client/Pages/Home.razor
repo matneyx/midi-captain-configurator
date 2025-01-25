@@ -1,0 +1,108 @@
+﻿@page "/"
+@using MidiCaptainConfigurator.Client.Components
+
+<PageTitle>Midi Captain Configurator</PageTitle>
+
+<MudFileUpload T="IBrowserFile" FilesChanged="OnFileUploaded" Accept=".txt" MaximumFileCount="1">
+    <ActivatorContent>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.CloudUpload">
+            Upload Page File
+        </MudButton>
+    </ActivatorContent>
+</MudFileUpload>
+
+<MudContainer>
+    <MudGrid>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">Configuration</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudText Typo="Typo.body1">Configuration file: @(_midiCaptainConfiguration.FileName)</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudExpansionPanels>
+                @if (_midiCaptainConfiguration.GlobalConfiguration != null)
+                {
+                    <MudExpansionPanel Text="Device Global Settings">
+                        <TitleContent>
+                            <MudText Typo="Typo.h5">Device Global Settings</MudText>
+                        </TitleContent>
+                        <ChildContent>
+                            <MudGrid>
+                                <MudItem xs="12">
+                                    <MudText Typo="Typo.subtitle1">Global Settings should only be placed in <code>page0.txt</code>. If added to any other page, they will be ignored.
+                                    </MudText>
+                                </MudItem>
+                                <NumericSlider Title="LED Brightness" 
+                                               @bind-Value="@_midiCaptainConfiguration.GlobalConfiguration.LedBright"
+                                               Min="0" Max="100">
+                                        Use this setting to adjust the brightness of the footswitch LED. The brightness can be set from 0 to 100, but it is recommended to stay between 20 and 50 for the best balance. Keep in mind, higher brightness levels will use more power.
+                                        <br />
+                                        The default setting is 30.
+                                </NumericSlider>
+                                <NumericSlider Title="Screen Brightness"
+                                               @bind-Value="@_midiCaptainConfiguration.GlobalConfiguration.ScreenBright"
+                                               Min="0" Max="100">
+                                        Use this setting to adjust the screen brightness, with a range of 0 to 100.
+                                        <br />
+                                        The default setting is 80.
+                                </NumericSlider>
+                                <ToggleSwitch
+                                    Title="Use Dark Fonts"
+                                    @bind-Value="@_midiCaptainConfiguration.GlobalConfiguration.DarkFonts">
+                                        Use this setting to automatically adjust font color based on your wallpaper:
+                                        <ul>
+                                            <li><strong>Off:</strong> Light-colored fonts for dark backgrounds (default).</li>
+                                            <li><strong>On:</strong> Dark-colored fonts for light backgrounds.</li>
+                                        </ul>
+                                </ToggleSwitch>
+                                <TextInput
+                                    Title="Wallpaper"
+                                    @bind-Value="@_midiCaptainConfiguration.GlobalConfiguration.Wallpaper">
+                                    Use this setting to change the screen's background or wallpaper. The device includes two default wallpapers, but you can upload more. Refer to the device documentation for wallpaper file requirements and instructions on adding new wallpapers.
+                                    <br/>
+                                    The default setting is <code>WP2</code>.
+                                </TextInput>
+                            </MudGrid>
+                        </ChildContent>
+                    </MudExpansionPanel>
+                }
+                @if (_midiCaptainConfiguration.Page != null)
+                {
+                    <MudExpansionPanel Text="Page">
+                        Panel Two Content
+                    </MudExpansionPanel>
+                    @foreach (var key in _midiCaptainConfiguration.Page.Keys)
+                    {
+                        <MudExpansionPanel Text="@($"Key {key.KeyNumber}")">
+                            Panel Three Content
+                        </MudExpansionPanel>
+                    }
+                }
+            </MudExpansionPanels>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code{
+
+    readonly ConfigParser _configParser = new();
+    MidiCaptainConfiguration _midiCaptainConfiguration = new();
+    private bool _ledBrightnessExpanded;
+
+    private async Task OnFileUploaded(IBrowserFile browserFile)
+    {
+        if (browserFile != null)
+        {
+            _midiCaptainConfiguration = await _configParser.ParseConfigurationFile(browserFile);
+        }
+    }
+
+    private void ExpandLedBrightness(MouseEventArgs arg)
+    {
+        _ledBrightnessExpanded = !_ledBrightnessExpanded;
+    }
+
+}

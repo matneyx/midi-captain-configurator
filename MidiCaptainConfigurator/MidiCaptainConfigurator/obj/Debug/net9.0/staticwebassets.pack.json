@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\projects\\personal\\midi-captain-configurator\\MidiCaptainConfigurator\\MidiCaptainConfigurator\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.MidiCaptainConfigurator.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.MidiCaptainConfigurator.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.MidiCaptainConfigurator.props",
+      "PackagePath": "build\\MidiCaptainConfigurator.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.MidiCaptainConfigurator.props",
+      "PackagePath": "buildMultiTargeting\\MidiCaptainConfigurator.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.MidiCaptainConfigurator.props",
+      "PackagePath": "buildTransitive\\MidiCaptainConfigurator.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

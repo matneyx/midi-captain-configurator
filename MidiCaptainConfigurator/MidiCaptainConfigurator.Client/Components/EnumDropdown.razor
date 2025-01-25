@@ -1,0 +1,51 @@
+@typeparam TEnum
+
+<MudItem xs="12">
+    <MudStack Spacing="2">
+        <MudContainer Class="d-flex flex-row flex-grow-1 gap-4 align-center">
+            <MudContainer Class="d-flex flex-row">
+                <MudText Typo="Typo.h6">@Title
+                    <MudIconButton OnClick="@ExpandDescription"
+                                   Icon="@Icons.Material.Filled.QuestionMark"
+                                   Size="Size.Small"/>
+                </MudText>
+            </MudContainer>
+            <MudSpacer/>
+            <MudSelect T="TEnum" 
+                       bind-Value="@Value">
+                @foreach (var value in Enum.GetValues(typeof(TEnum)))
+                {
+                    <MudSelectItem Value="@value">@value.ToString()</MudSelectItem>
+                }
+            </MudSelect> 
+        </MudContainer>
+        <MudContainer Class="d-flex flex-row flex-grow-1 gap-4 align-center">
+            <MudCollapse Expanded="@_descriptionExpanded">
+                <MudAlert Severity="Severity.Info">
+                    @ChildContent
+                </MudAlert>
+            </MudCollapse>
+        </MudContainer>
+    </MudStack>
+</MudItem>
+
+@code {
+    private bool _descriptionExpanded;
+
+    [Parameter]
+    public string Title { get; set; }
+    
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public TEnum Value { get; set; }
+    
+    [Parameter]
+    public EventCallback<TEnum> ValueChanged { get; set; }
+    
+    private void ExpandDescription()
+    {
+        _descriptionExpanded = !_descriptionExpanded;
+    }
+}
